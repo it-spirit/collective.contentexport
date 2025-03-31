@@ -296,6 +296,8 @@ class ExportView(BrowserView):
                     # overridden in ADDITIONAL_MAPPING
                     continue
 
+                if callable(field):
+                    continue
                 value = field.get(field.interface(obj))
                 if not value:
                     # set a value anyway to keep the dimensions of all
@@ -373,6 +375,8 @@ class ExportView(BrowserView):
                 # if fieldname not in ['primary_picture']:
                 #     continue
                 blobs = []
+                if callable(field):
+                    continue
                 value = field.get(field.interface(obj))
                 if not value:
                     continue
@@ -547,6 +551,8 @@ class DXFields(BrowserView):
             return self.index()
         results = []
         for fieldname, field in get_schema_info(portal_type):
+            if callable(field):
+                continue
             translated_title = translate(
                 field.title, domain='plone', context=self.request)
             class_name = field.__class__.__name__
